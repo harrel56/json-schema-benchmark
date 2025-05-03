@@ -20,6 +20,7 @@ dependencies {
 tasks.register('runBenchmark', JavaExec) {
     main 'dev.harrel.benchmark.Main'
     classpath sourceSets.main.runtimeClasspath
+    environment 'TEST_RUN', 0
     environment 'LIB_VERSION', '1.8.1'
     environment 'JSON_PROVIDER', 'jackson'
 }

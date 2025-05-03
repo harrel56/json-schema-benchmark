@@ -1,39 +1,39 @@
 package dev.harrel.benchmark;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.harrel.jsonschema.Validator;
 import dev.harrel.jsonschema.ValidatorFactory;
 import org.openjdk.jmh.annotations.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 @State(Scope.Benchmark)
 public class SpecificationBenchmark {
     @Param({"unused"})
-    public String name;
+    public String benchmarkFileName;
 
-    private URI schemaUri = URI.create("urn:bench");
+    private final URI schemaUri = URI.create("urn:bench");
     private Validator validator;
-    private JsonNode schemaNode;
     private JsonNode instanceNode;
 
     @Setup
-    public void setup() throws JsonProcessingException {
-        System.out.println(name);
+    public void setup() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        schemaNode = objectMapper.readTree("""
-                {
-                  "type": "null"
-                }""");
-        instanceNode = objectMapper.readTree("null");
+        JsonNode benchmarkNode = objectMapper.readTree(new File(benchmarkFileName));
         validator = new ValidatorFactory().createValidator();
-        validator.registerSchema(schemaUri, schemaNode);
+        validator.registerSchema(schemaUri, benchmarkNode.get("schema"));
+        instanceNode = benchmarkNode.get("instance");
     }
 
     @Benchmark
-    public Validator.Result typeNull() {
-        return validator.validate(schemaUri, instanceNode);
+    public Validator.Result benchmark() {
+        Validator.Result res = validator.validate(schemaUri, instanceNode);
+        if (!res.isValid()) {
+            throw new IllegalArgumentException("Validation failed: " + res.getErrors());
+        }
+        return res;
     }
 }
