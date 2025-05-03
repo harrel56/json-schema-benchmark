@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'java'
 }
@@ -23,4 +25,16 @@ tasks.register('runBenchmark', JavaExec) {
     environment 'TEST_RUN', 0
     environment 'LIB_VERSION', '1.8.1'
     environment 'JSON_PROVIDER', 'jackson'
+}
+
+tasks.register('buildSite', Exec) {
+    commandLine getNpxCommand(), '@11ty/eleventy@3.0.0'
+}
+
+static def getNpxCommand() {
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        return 'npx.cmd'
+    } else {
+        return 'npx'
+    }
 }
