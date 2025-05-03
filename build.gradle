@@ -7,7 +7,6 @@ version = '1.0.0'
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -16,11 +15,11 @@ dependencies {
 
     implementation 'dev.harrel:json-schema:1.8.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
-
-    testImplementation platform('org.junit:junit-bom:5.12.2')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-test {
-    useJUnitPlatform()
+tasks.register('runBenchmark', JavaExec) {
+    main 'dev.harrel.benchmark.Main'
+    classpath sourceSets.main.runtimeClasspath
+    environment 'LIB_VERSION', '1.8.1'
+    environment 'JSON_PROVIDER', 'jackson'
 }

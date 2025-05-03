@@ -1,0 +1,10 @@
+{
+  "schema": {
+    "type": ["array", "object", "null"]
+  },
+  "instance": {
+    "prop1": "value1",
+    "prop2": [{}, 1],
+    "prop3": null
+  }
+}
