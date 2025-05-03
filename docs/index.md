@@ -6,7 +6,7 @@ title: dev.harrel benchmarks
 what up
 
 <ul>
-{%- for x in benchmarks['1.8.1'].jackson['jmh-result'] -%}
+{%- for x in benchmarks.jackson -%}
   <li>{{ x }}</li>
 {%- endfor -%}
 </ul>
@@ -15,6 +15,8 @@ what up
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+const x = {{ benchmarks | jsonify }}
+console.log(x)
   const data = {
     labels: ["Test A", "Test B", "Test C"],
     datasets: [{

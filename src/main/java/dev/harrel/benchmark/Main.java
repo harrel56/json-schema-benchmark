@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String ver = Objects.requireNonNull(System.getenv("LIB_VERSION"));
         String jsonProvider = Objects.requireNonNull(System.getenv("JSON_PROVIDER"));
-        Path outputPath = Path.of("build/reports/jmh/%s/%s/jmh-result.json".formatted(ver, jsonProvider));
+        String ver = Objects.requireNonNull(System.getenv("LIB_VERSION"));
+        Path outputPath = Path.of("build/reports/jmh/benchmarks/%s/%s.json".formatted(jsonProvider, ver));
         Files.createDirectories(outputPath.getParent());
 
         String[] benchmarkFileNames = computeBenchmarkFileNames();
