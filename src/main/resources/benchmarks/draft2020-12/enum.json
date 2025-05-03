@@ -1,0 +1,21 @@
+{
+  "schema": {
+    "enum": [null, 0, 1, 2, [],
+      {
+      "prop1": "value1",
+      "prop2": [{}, 1],
+      "prop3": null
+      },
+      {
+      "prop1": "value1",
+      "prop2": [{}, 1],
+      "prop3": null,
+      "prop4": 0
+    }]
+  },
+  "instance": {
+    "prop1": "value1",
+    "prop2": [{}, 1],
+    "prop3": null
+  }
+}
