@@ -14,17 +14,44 @@ repositories {
 dependencies {
     annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
     implementation 'org.openjdk.jmh:jmh-core:1.37'
-
-    implementation 'dev.harrel:json-schema:1.8.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
 }
 
-tasks.register('runBenchmark', JavaExec) {
-    main 'dev.harrel.benchmark.Main'
-    classpath sourceSets.main.runtimeClasspath
-    environment 'TEST_RUN', 0
-    environment 'LIB_VERSION', '1.8.1'
-    environment 'JSON_PROVIDER', 'jackson'
+def providers = [
+        [id   : 'jackson', group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.19.0']
+]
+def versions = ['1.5.1', '1.6.1', '1.7.3', '1.8.1']
+
+providers.forEach { provider ->
+    versions.forEach {ver ->
+        def sourceSetName = "benchmark${provider.id.capitalize()}${ver.replace('.', '_')}"
+        def sourceSet = sourceSets.register(sourceSetName) {
+            java {
+                srcDirs sourceSets.main.java.srcDirs
+            }
+            resources {
+                srcDirs sourceSets.main.resources.srcDirs
+            }
+        }.get()
+        configurations.getByName(sourceSet.implementationConfigurationName).extendsFrom configurations.implementation
+        configurations.getByName(sourceSet.annotationProcessorConfigurationName).extendsFrom configurations.annotationProcessor
+        dependencies.add(sourceSet.implementationConfigurationName, [group: 'dev.harrel', name: 'json-schema', version: ver])
+        dependencies.add(sourceSet.implementationConfigurationName, [group: provider.group, name: provider.name, version: provider.version])
+        tasks.register("run${sourceSetName.capitalize()}", JavaExec) {
+            group 'benchmark'
+            main 'dev.harrel.benchmark.Main'
+            classpath sourceSet.runtimeClasspath
+            environment 'TEST_RUN', 1
+            environment 'LIB_VERSION', ver
+            environment 'JSON_PROVIDER', provider.id
+        }
+    }
+}
+
+
+tasks.register('runAllBenchmarks', Task) {
+    tasks.matching { it.group == 'benchmark' }.each {
+        dependsOn it.name
+    }
 }
 
 tasks.register('buildSite', Exec) {
