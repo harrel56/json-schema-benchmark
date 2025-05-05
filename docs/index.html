@@ -1,0 +1,54 @@
+<head>
+  <title>bench</title>
+</head>
+
+<h1>Hello there</h1>
+<p>what up</p>
+
+{% assign data = benchmarks | processBenchmarks %}
+{% assign dataKeys = data | keys %}
+{%- for key in dataKeys -%}
+  <canvas id="chart-{{ key }}" width="600" height="400"></canvas>
+{%- endfor -%}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const initChart = (keyword, benchmark) => {
+    const datasets = Object.values(benchmark.providers).map(providerData => {
+      return {
+        label: providerData.name,
+        data: providerData.data,
+        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+      }
+    })
+    const data = {
+      labels: benchmark.versions,
+      datasets: datasets
+    }
+
+    const ctx = document.getElementById('chart-' + keyword).getContext('2d')
+    new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: false,
+        plugins: {
+          title: {
+            display: true,
+            text: keyword,
+            font: {
+              size: 18
+            },
+            padding: {
+              top: 30
+            }
+          }
+        }
+      }
+    })
+  }
+  const benchmarks = {{ data | jsonify }}
+  Object.entries(benchmarks).forEach(([keyword, benchmark]) => {
+    initChart(keyword, benchmark)
+  })
+</script>

@@ -1,4 +1,5 @@
 module.exports = cfg => {
+  cfg.addFilter("keys", obj => Object.keys(obj))
   cfg.addFilter('processBenchmarks', data => {
     const res = {}
     Object.entries(data).forEach(([provider, providerData]) => {
