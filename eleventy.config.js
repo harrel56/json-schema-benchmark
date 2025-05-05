@@ -8,6 +8,7 @@ module.exports = cfg => {
           const keyword = benchmark.params.benchmarkFileName.split(/[/\\]/).pop().replace(/\.[^/.]+$/, "")
           const keywordData = res[keyword] = res[keyword] ?? {}
 
+          keywordData.scoreUnit = benchmark.primaryMetric.scoreUnit
           keywordData.versions = keywordData.versions ?? []
           if (!keywordData.versions.includes(version)) {
             keywordData.versions.push(version)

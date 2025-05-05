@@ -1,5 +1,6 @@
 <head>
-  <title>bench</title>
+  <title>Harrel.dev | Benchmarks</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <h1>Hello there</h1>
@@ -11,7 +12,6 @@
   <canvas id="chart-{{ key }}" width="600" height="400"></canvas>
 {%- endfor -%}
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   const initChart = (keyword, benchmark) => {
     const datasets = Object.values(benchmark.providers).map(providerData => {
@@ -32,6 +32,21 @@
       data: data,
       options: {
         responsive: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Version'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: benchmark.scoreUnit
+            }
+          }
+        },
         plugins: {
           title: {
             display: true,
