@@ -6,8 +6,8 @@ title: dev.harrel benchmarks
 what up
 
 <ul>
-{%- for x in benchmarks.jackson -%}
-  <li>{{ x }}</li>
+{%- for res in benchmarks.jackson['1.8.1'] -%}
+  <li>{{ res.params.benchmarkFileName }}</li>
 {%- endfor -%}
 </ul>
 
@@ -15,15 +15,18 @@ what up
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const x = {{ benchmarks | jsonify }}
-console.log(x)
-  const data = {
-    labels: ["Test A", "Test B", "Test C"],
-    datasets: [{
-      label: 'Time (ms)',
-      data: [120, 90, 150],
+  const benchmarks = {{ benchmarks | processBenchmarks | jsonify }}
+  const benchmark = benchmarks.enum
+  const datasets = Object.values(benchmark.providers).map(providerData => {
+    return {
+      label: providerData.name,
+      data: providerData.data,
       backgroundColor: 'rgba(75, 192, 192, 0.6)'
-    }]
+    }
+  })
+  const data = {
+    labels: benchmark.versions,
+    datasets: datasets
   };
 
   const ctx = document.getElementById('chart1').getContext('2d');

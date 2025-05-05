@@ -63,11 +63,6 @@ tasks.register('buildSite', Exec) {
     commandLine getNpxCommand(), '@11ty/eleventy@3.0.0'
 }
 
-tasks.register('serveSite', Exec) {
-    group 'build'
-    commandLine getNpxCommand(), '@11ty/eleventy@3.0.0', '--serve'
-}
-
 static def getNpxCommand() {
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         return 'npx.cmd'
