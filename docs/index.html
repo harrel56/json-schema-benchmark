@@ -1,24 +1,42 @@
 <head>
   <title>Harrel.dev | Benchmarks</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
 </head>
 
-<h1>Hello there</h1>
-<p>what up</p>
+<h1>Benchmark data</h1>
+<p>Performance measurements of <a href="https://github.com/harrel56/json-schema">dev.harrel JSON Schema validator</a></p>
 
 {% assign data = benchmarks | processBenchmarks %}
 {% assign dataKeys = data | keys %}
+<nav>
+  <ol>
+    {%- for key in dataKeys -%}
+      <li><a href="#{{ key }}">{{ key }}</a></li>
+    {%- endfor -%}
+  </ol>
+</nav>
 {%- for key in dataKeys -%}
+  <h2 id="{{ key }}">{{ key }}</h2>
   <canvas id="chart-{{ key }}" width="600" height="400"></canvas>
 {%- endfor -%}
 
 <script>
+  const colors = [
+    '#4cc2c2',
+    '#bd3861',
+    '#59b633',
+    '#e0c441',
+    '#803dbe'
+  ]
   const initChart = (keyword, benchmark) => {
-    const datasets = Object.values(benchmark.providers).map(providerData => {
+    const datasets = Object.values(benchmark.providers).map((providerData, idx) => {
       return {
         label: providerData.name,
         data: providerData.data,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+        borderColor: colors[idx] + '69',
+        backgroundColor: colors[idx],
+        tension: 0.25
       }
     })
     const data = {
@@ -44,18 +62,6 @@
             title: {
               display: true,
               text: benchmark.scoreUnit
-            }
-          }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: keyword,
-            font: {
-              size: 18
-            },
-            padding: {
-              top: 30
             }
           }
         }
