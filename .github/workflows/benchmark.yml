@@ -5,6 +5,7 @@ on:
 
 jobs:
   run-benchmarks:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
