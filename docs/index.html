@@ -8,17 +8,26 @@
 <p>Performance measurements of <a href="https://github.com/harrel56/json-schema">dev.harrel JSON Schema validator</a></p>
 
 {% assign data = benchmarks | processBenchmarks %}
-{% assign dataKeys = data | keys %}
+{% assign dataEntries = data | entries %}
 <nav>
   <ul>
-    {%- for key in dataKeys -%}
-      <li><a href="#{{ key }}">{{ key }}</a></li>
+    {%- for entry in dataEntries -%}
+      <li><a href="#{{ entry[0] }}">{{ entry[1].title }}</a></li>
     {%- endfor -%}
   </ul>
 </nav>
-{%- for key in dataKeys -%}
-  <h2 id="{{ key }}">{{ key }}</h2>
-  <canvas id="chart-{{ key }}" width="600" height="400"></canvas>
+{%- for entry in dataEntries -%}
+  <h3 id="{{ entry[0] }}">{{ entry[1].title }}</h3>
+  <p><i>{{ entry[1].description }}</i></p>
+  <details>
+    <summary>Schema</summary>
+    <pre>{{ entry[1].schema | prettyJson }}</pre>
+  </details>
+<details>
+  <summary>Instance</summary>
+  <pre>{{ entry[1].instance | prettyJson }}</pre>
+</details>
+  <canvas id="chart-{{ entry[0] }}" width="600" height="400"></canvas>
 {%- endfor -%}
 
 <script>

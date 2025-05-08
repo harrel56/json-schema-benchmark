@@ -1,4 +1,5 @@
 {
+  "title": "Keyword: type",
   "schema": {
     "type": ["array", "object", "null"]
   },

@@ -1,4 +1,6 @@
 {
+  "title": "Keyword: enum",
+  "description": "Checking enums with complex array & object types",
   "schema": {
     "enum": [null, 0, 1, 2, [],
       {
