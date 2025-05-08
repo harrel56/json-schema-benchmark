@@ -10,11 +10,11 @@
 {% assign data = benchmarks | processBenchmarks %}
 {% assign dataKeys = data | keys %}
 <nav>
-  <ol>
+  <ul>
     {%- for key in dataKeys -%}
       <li><a href="#{{ key }}">{{ key }}</a></li>
     {%- endfor -%}
-  </ol>
+  </ul>
 </nav>
 {%- for key in dataKeys -%}
   <h2 id="{{ key }}">{{ key }}</h2>

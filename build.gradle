@@ -45,7 +45,7 @@ providers.forEach { provider ->
             group 'benchmark'
             main 'dev.harrel.benchmark.Main'
             classpath sourceSet.runtimeClasspath
-            environment 'TEST_RUN', 1
+            environment 'TEST_RUN', 0
             environment 'LIB_VERSION', ver
             environment 'JSON_PROVIDER', provider.id
         }
