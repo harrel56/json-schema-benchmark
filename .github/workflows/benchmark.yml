@@ -1,0 +1,32 @@
+name: benchmark
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          # Not using variables to allow running from forks
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+
+      - name: Run all benchmarks
+        run: ./gradlew runAllBenchmarks --no-daemon
+
+      - name: Upload benchmark data
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-data
+          path: build/reports/jmh
