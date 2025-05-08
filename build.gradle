@@ -50,6 +50,7 @@ providers.forEach { provider ->
             environment 'TEST_RUN', 1
             environment 'LIB_VERSION', ver
             environment 'JSON_PROVIDER', provider.id
+            jvmArgs '-XX:+EnableDynamicAgentLoading'
         }
     }
 }
