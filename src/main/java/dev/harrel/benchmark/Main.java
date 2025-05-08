@@ -7,6 +7,7 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
+import org.openjdk.jmh.runner.options.VerboseMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class Main {
         System.out.printf("Found %d benchmark files: %s%n", benchmarkFileNames.length, Arrays.toString(benchmarkFileNames));
 
         ChainedOptionsBuilder opt = new OptionsBuilder()
+                .verbosity(VerboseMode.SILENT)
                 .include(SpecificationBenchmark.class.getSimpleName())
                 .param("benchmarkFileName", benchmarkFileNames)
                 .result(outputPath.toString())
