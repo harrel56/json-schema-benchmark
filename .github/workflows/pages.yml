@@ -29,9 +29,8 @@ jobs:
           workflow: benchmark.yml
           branch: master
           name: benchmark-data
-          path: .
+          path: build/reports/jmh
 
-      - run: ls -la
       - run: tree
 
       - name: Build site
