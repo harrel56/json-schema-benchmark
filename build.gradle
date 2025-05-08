@@ -12,8 +12,10 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
+    implementation 'net.bytebuddy:byte-buddy:1.17.5'
+    implementation 'net.bytebuddy:byte-buddy-agent:1.17.5'
     implementation 'org.openjdk.jmh:jmh-core:1.37'
+    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
 
     // just for sake of local edition and completion
     implementation 'dev.harrel:json-schema:1.8.1'
@@ -45,7 +47,7 @@ providers.forEach { provider ->
             group 'benchmark'
             main 'dev.harrel.benchmark.Main'
             classpath sourceSet.runtimeClasspath
-            environment 'TEST_RUN', 0
+            environment 'TEST_RUN', 1
             environment 'LIB_VERSION', ver
             environment 'JSON_PROVIDER', provider.id
         }
