@@ -1,0 +1,7 @@
+{
+  "title": "Keyword: maxLength",
+  "schema": {
+    "maxLength": 13
+  },
+  "instance": "僕は暖かいお茶が欲しいです"
+}

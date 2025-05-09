@@ -1,0 +1,13 @@
+{
+  "title": "Keyword: const",
+  "schema": {
+    "const": {
+      "ids": ["123", "456", "789"],
+      "level": 10
+    }
+  },
+  "instance": {
+    "level": 10,
+    "ids": ["123", "456", "789"]
+  }
+}

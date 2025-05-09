@@ -1,0 +1,7 @@
+{
+  "title": "Keyword: minLength",
+  "schema": {
+    "minLength": 10
+  },
+  "instance": "僕は暖かいお茶が欲しいです"
+}

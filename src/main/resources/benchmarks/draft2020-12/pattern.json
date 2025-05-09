@@ -1,0 +1,7 @@
+{
+  "title": "Keyword: pattern",
+  "schema": {
+    "pattern": "a+"
+  },
+  "instance": "xxaayy"
+}
