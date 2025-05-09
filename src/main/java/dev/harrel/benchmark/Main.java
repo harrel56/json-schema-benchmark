@@ -31,21 +31,21 @@ public class Main {
         System.out.printf("Found %d benchmark files: %s%n", benchmarkFileNames.length, Arrays.toString(benchmarkFileNames));
 
         ChainedOptionsBuilder opt = new OptionsBuilder()
-                .verbosity(VerboseMode.SILENT)
                 .include(SpecificationBenchmark.class.getSimpleName())
                 .param("benchmarkFileName", benchmarkFileNames)
                 .result(outputPath.toString())
                 .resultFormat(ResultFormatType.JSON)
                 .timeUnit(TimeUnit.MICROSECONDS)
-                .forks(4)
+                .forks(2)
                 .warmupForks(0)
                 .warmupIterations(3)
-                .warmupTime(TimeValue.seconds(2))
-                .measurementIterations(5)
-                .measurementTime(TimeValue.seconds(4));
+                .warmupTime(TimeValue.seconds(1))
+                .measurementIterations(4)
+                .measurementTime(TimeValue.seconds(3));
         String testRun = System.getenv("TEST_RUN");
         if (testRun != null && !"0".equals(testRun)) {
             opt = opt.forks(0)
+                    .verbosity(VerboseMode.SILENT)
                     .warmupIterations(1)
                     .measurementIterations(1)
                     .mode(Mode.SingleShotTime);
