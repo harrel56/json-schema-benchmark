@@ -2,6 +2,14 @@ name: Run benchmarks
 
 on:
   workflow_dispatch:
+    inputs:
+      test_run:
+        description: Should run a quick benchmark round
+        default: '0'
+        type: choice
+        options:
+          - '0'
+          - '1'
 
 jobs:
   run-benchmarks:
@@ -24,6 +32,8 @@ jobs:
           gradle-version: wrapper
 
       - name: Run all benchmarks
+        env:
+          TEST_RUN: ${{ inputs.test_run }}
         run: ./gradlew runAllBenchmarks --no-daemon
 
       - name: Upload benchmark data

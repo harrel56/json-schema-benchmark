@@ -37,12 +37,12 @@ public class Main {
                 .result(outputPath.toString())
                 .resultFormat(ResultFormatType.JSON)
                 .timeUnit(TimeUnit.MICROSECONDS)
-                .forks(1)
+                .forks(4)
                 .warmupForks(0)
-                .warmupIterations(1)
+                .warmupIterations(3)
                 .warmupTime(TimeValue.seconds(2))
-                .measurementIterations(3)
-                .measurementTime(TimeValue.seconds(10));
+                .measurementIterations(5)
+                .measurementTime(TimeValue.seconds(4));
         String testRun = System.getenv("TEST_RUN");
         if (testRun != null && !"0".equals(testRun)) {
             opt = opt.mode(Mode.SingleShotTime);
