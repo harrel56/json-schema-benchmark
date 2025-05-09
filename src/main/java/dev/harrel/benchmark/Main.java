@@ -45,7 +45,10 @@ public class Main {
                 .measurementTime(TimeValue.seconds(4));
         String testRun = System.getenv("TEST_RUN");
         if (testRun != null && !"0".equals(testRun)) {
-            opt = opt.mode(Mode.SingleShotTime);
+            opt = opt.forks(0)
+                    .warmupIterations(1)
+                    .measurementIterations(1)
+                    .mode(Mode.SingleShotTime);
         } else {
             opt = opt.mode(Mode.AverageTime);
         }
