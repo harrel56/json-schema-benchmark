@@ -36,11 +36,11 @@ public class Main {
                 .result(outputPath.toString())
                 .resultFormat(ResultFormatType.JSON)
                 .timeUnit(TimeUnit.MICROSECONDS)
-                .forks(8)
+                .forks(4)
                 .warmupForks(0)
-                .warmupIterations(3)
-                .warmupTime(TimeValue.seconds(1))
-                .measurementIterations(8)
+                .warmupIterations(5)
+                .warmupTime(TimeValue.seconds(2))
+                .measurementIterations(4)
                 .measurementTime(TimeValue.seconds(8));
         String testRun = System.getenv("TEST_RUN");
         if (testRun != null && !"0".equals(testRun)) {
