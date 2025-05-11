@@ -18,6 +18,7 @@ dependencies {
     annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
 
     implementation 'dev.harrel:json-schema:1.8.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
 }
 
 def providers = [
@@ -49,7 +50,7 @@ providers.forEach { provider ->
             group 'benchmark'
             main 'dev.harrel.benchmark.Main'
             classpath sourceSet.runtimeClasspath
-            environment 'TEST_RUN', 1
+//            environment 'TEST_RUN', 1
             environment 'LIB_VERSION', ver
             environment 'JSON_PROVIDER', provider.id
             environment 'JSON_PROVIDER_FACTORY', provider.factoryClass

@@ -45,7 +45,7 @@ public class Main {
         String testRun = System.getenv("TEST_RUN");
         if (testRun != null && !"0".equals(testRun)) {
             opt = opt.forks(0)
-                    .verbosity(VerboseMode.SILENT)
+//                    .verbosity(VerboseMode.SILENT)
                     .warmupIterations(1)
                     .measurementIterations(1)
                     .mode(Mode.SingleShotTime);

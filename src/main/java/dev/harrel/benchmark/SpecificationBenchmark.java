@@ -1,5 +1,6 @@
 package dev.harrel.benchmark;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.harrel.jsonschema.JsonNode;
 import dev.harrel.jsonschema.JsonNodeFactory;
 import dev.harrel.jsonschema.Validator;
@@ -8,8 +9,6 @@ import org.openjdk.jmh.annotations.*;
 
 import java.io.File;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @State(Scope.Benchmark)
 public class SpecificationBenchmark {
@@ -25,10 +24,10 @@ public class SpecificationBenchmark {
         String providerFactoryName = System.getenv("JSON_PROVIDER_FACTORY");
         Class<?> factoryClass = Class.forName(providerFactoryName);
         JsonNodeFactory factory = (JsonNodeFactory) factoryClass.getConstructor().newInstance();
-        JsonNode benchmarkNode = factory.create(Files.readString(Path.of(benchmarkFileName)));
-        validator = new ValidatorFactory().createValidator();
-        validator.registerSchema(schemaUri, benchmarkNode.asObject().get("schema"));
-        instanceNode = benchmarkNode.asObject().get("instance");
+        com.fasterxml.jackson.databind.JsonNode jacksonNode = new ObjectMapper().readTree(new File(benchmarkFileName));
+        validator = new ValidatorFactory().withJsonNodeFactory(factory).createValidator();
+        validator.registerSchema(schemaUri, jacksonNode.get("schema").toString());
+        instanceNode = factory.create(jacksonNode.get("instance").toString());
     }
 
     @Benchmark
