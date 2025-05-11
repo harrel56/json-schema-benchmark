@@ -1,14 +1,15 @@
 package dev.harrel.benchmark;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.harrel.jsonschema.JsonNode;
+import dev.harrel.jsonschema.JsonNodeFactory;
 import dev.harrel.jsonschema.Validator;
 import dev.harrel.jsonschema.ValidatorFactory;
 import org.openjdk.jmh.annotations.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @State(Scope.Benchmark)
 public class SpecificationBenchmark {
@@ -20,12 +21,14 @@ public class SpecificationBenchmark {
     private JsonNode instanceNode;
 
     @Setup
-    public void setup() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode benchmarkNode = objectMapper.readTree(new File(benchmarkFileName));
+    public void setup() throws Exception {
+        String providerFactoryName = System.getenv("JSON_PROVIDER_FACTORY");
+        Class<?> factoryClass = Class.forName(providerFactoryName);
+        JsonNodeFactory factory = (JsonNodeFactory) factoryClass.getConstructor().newInstance();
+        JsonNode benchmarkNode = factory.create(Files.readString(Path.of(benchmarkFileName)));
         validator = new ValidatorFactory().createValidator();
-        validator.registerSchema(schemaUri, benchmarkNode.get("schema"));
-        instanceNode = benchmarkNode.get("instance");
+        validator.registerSchema(schemaUri, benchmarkNode.asObject().get("schema"));
+        instanceNode = benchmarkNode.asObject().get("instance");
     }
 
     @Benchmark
