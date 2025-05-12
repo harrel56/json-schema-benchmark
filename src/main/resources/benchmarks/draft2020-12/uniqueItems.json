@@ -1,0 +1,45 @@
+{
+  "title": "Keyword: uniqueItems",
+  "schema": {
+    "uniqueItems": true
+  },
+  "instance": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    {},
+    [],
+    true,
+    "hello1",
+    "hello2",
+    "hello3",
+    {
+      "a": 1,
+      "b": 2,
+      "c": {
+        "x": "x",
+        "y": "y",
+        "z": {
+          "q": null,
+          "w": false,
+          "e": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+      }
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "c": {
+        "x": "x",
+        "y": "y",
+        "z": {
+          "q": null,
+          "w": false,
+          "e": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        }
+      }
+    }
+  ]
+}

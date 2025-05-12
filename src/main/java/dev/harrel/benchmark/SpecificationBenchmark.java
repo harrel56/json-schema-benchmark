@@ -17,7 +17,7 @@ public class SpecificationBenchmark {
 
     private final URI schemaUri = URI.create("urn:bench");
     private Validator validator;
-    private JsonNode instanceNode;
+    private String instanceString;
 
     @Setup
     public void setup() throws Exception {
@@ -27,12 +27,12 @@ public class SpecificationBenchmark {
         com.fasterxml.jackson.databind.JsonNode jacksonNode = new ObjectMapper().readTree(new File(benchmarkFileName));
         validator = new ValidatorFactory().withJsonNodeFactory(factory).createValidator();
         validator.registerSchema(schemaUri, jacksonNode.get("schema").toString());
-        instanceNode = factory.create(jacksonNode.get("instance").toString());
+        instanceString = jacksonNode.get("instance").toString();
     }
 
     @Benchmark
     public Validator.Result benchmark() {
-        Validator.Result res = validator.validate(schemaUri, instanceNode);
+        Validator.Result res = validator.validate(schemaUri, instanceString);
         if (!res.isValid()) {
             throw new IllegalArgumentException("Validation failed: " + res.getErrors());
         }
